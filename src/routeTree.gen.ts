@@ -9,38 +9,64 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as ReservasRouteImport } from './routes/reservas'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as ReservasNuevaRouteImport } from './routes/reservas.nueva'
 
+const ReservasRoute = ReservasRouteImport.update({
+  id: '/reservas',
+  path: '/reservas',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ReservasNuevaRoute = ReservasNuevaRouteImport.update({
+  id: '/nueva',
+  path: '/nueva',
+  getParentRoute: () => ReservasRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/reservas': typeof ReservasRouteWithChildren
+  '/reservas/nueva': typeof ReservasNuevaRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/reservas': typeof ReservasRouteWithChildren
+  '/reservas/nueva': typeof ReservasNuevaRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/reservas': typeof ReservasRouteWithChildren
+  '/reservas/nueva': typeof ReservasNuevaRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths: '/' | '/reservas' | '/reservas/nueva'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to: '/' | '/reservas' | '/reservas/nueva'
+  id: '__root__' | '/' | '/reservas' | '/reservas/nueva'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  ReservasRoute: typeof ReservasRouteWithChildren
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/reservas': {
+      id: '/reservas'
+      path: '/reservas'
+      fullPath: '/reservas'
+      preLoaderRoute: typeof ReservasRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -48,12 +74,42 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/reservas/nueva': {
+      id: '/reservas/nueva'
+      path: '/nueva'
+      fullPath: '/reservas/nueva'
+      preLoaderRoute: typeof ReservasNuevaRouteImport
+      parentRoute: typeof ReservasRoute
+    }
   }
 }
 
+interface ReservasRouteChildren {
+  ReservasNuevaRoute: typeof ReservasNuevaRoute
+}
+
+const ReservasRouteChildren: ReservasRouteChildren = {
+  ReservasNuevaRoute: ReservasNuevaRoute,
+}
+
+const ReservasRouteWithChildren = ReservasRoute._addFileChildren(
+  ReservasRouteChildren,
+)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  ReservasRoute: ReservasRouteWithChildren,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
+
+import type { getRouter } from './router.tsx'
+import type { startInstance } from './start.ts'
+declare module '@tanstack/react-start' {
+  interface Register {
+    ssr: true
+    router: Awaited<ReturnType<typeof getRouter>>
+    config: Awaited<ReturnType<typeof startInstance.getOptions>>
+  }
+}
