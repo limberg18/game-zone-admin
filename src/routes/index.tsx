@@ -4,7 +4,7 @@ import { CalendarDays, DollarSign, MapPin, Users, TrendingUp } from "lucide-reac
 import { PageContainer, StatCard } from "@/components/page-container";
 import { store, type Reserva, type Cancha, type Cliente } from "@/lib/storage";
 import { money, formatDate } from "@/lib/format";
-import { LineChart, Line, ResponsiveContainer, XAxis, YAxis, Tooltip, CartesianGrid, Area, AreaChart } from "recharts";
+import { ResponsiveContainer, XAxis, YAxis, Tooltip, CartesianGrid, Area, AreaChart } from "recharts";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -103,7 +103,6 @@ function Dashboard() {
       </div>
 
       <div className="text-xs text-muted-foreground">Última sincronización: {formatDate(today)}</div>
-      <span className="hidden">{LineChart && Line ? "" : ""}</span>
     </PageContainer>
   );
 }
