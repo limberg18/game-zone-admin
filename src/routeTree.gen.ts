@@ -9,13 +9,67 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as VentasRouteImport } from './routes/ventas'
+import { Route as UsuariosRouteImport } from './routes/usuarios'
+import { Route as TorneosRouteImport } from './routes/torneos'
 import { Route as ReservasRouteImport } from './routes/reservas'
+import { Route as ReportesRouteImport } from './routes/reportes'
+import { Route as ProductosRouteImport } from './routes/productos'
+import { Route as ConfiguracionRouteImport } from './routes/configuracion'
+import { Route as ClientesRouteImport } from './routes/clientes'
+import { Route as CanchasRouteImport } from './routes/canchas'
+import { Route as CajaRouteImport } from './routes/caja'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as ReservasNuevaRouteImport } from './routes/reservas.nueva'
 
+const VentasRoute = VentasRouteImport.update({
+  id: '/ventas',
+  path: '/ventas',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const UsuariosRoute = UsuariosRouteImport.update({
+  id: '/usuarios',
+  path: '/usuarios',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const TorneosRoute = TorneosRouteImport.update({
+  id: '/torneos',
+  path: '/torneos',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ReservasRoute = ReservasRouteImport.update({
   id: '/reservas',
   path: '/reservas',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ReportesRoute = ReportesRouteImport.update({
+  id: '/reportes',
+  path: '/reportes',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ProductosRoute = ProductosRouteImport.update({
+  id: '/productos',
+  path: '/productos',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ConfiguracionRoute = ConfiguracionRouteImport.update({
+  id: '/configuracion',
+  path: '/configuracion',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ClientesRoute = ClientesRouteImport.update({
+  id: '/clientes',
+  path: '/clientes',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CanchasRoute = CanchasRouteImport.update({
+  id: '/canchas',
+  path: '/canchas',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CajaRoute = CajaRouteImport.update({
+  id: '/caja',
+  path: '/caja',
   getParentRoute: () => rootRouteImport,
 } as any)
 const IndexRoute = IndexRouteImport.update({
@@ -31,40 +85,176 @@ const ReservasNuevaRoute = ReservasNuevaRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/caja': typeof CajaRoute
+  '/canchas': typeof CanchasRoute
+  '/clientes': typeof ClientesRoute
+  '/configuracion': typeof ConfiguracionRoute
+  '/productos': typeof ProductosRoute
+  '/reportes': typeof ReportesRoute
   '/reservas': typeof ReservasRouteWithChildren
+  '/torneos': typeof TorneosRoute
+  '/usuarios': typeof UsuariosRoute
+  '/ventas': typeof VentasRoute
   '/reservas/nueva': typeof ReservasNuevaRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/caja': typeof CajaRoute
+  '/canchas': typeof CanchasRoute
+  '/clientes': typeof ClientesRoute
+  '/configuracion': typeof ConfiguracionRoute
+  '/productos': typeof ProductosRoute
+  '/reportes': typeof ReportesRoute
   '/reservas': typeof ReservasRouteWithChildren
+  '/torneos': typeof TorneosRoute
+  '/usuarios': typeof UsuariosRoute
+  '/ventas': typeof VentasRoute
   '/reservas/nueva': typeof ReservasNuevaRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/caja': typeof CajaRoute
+  '/canchas': typeof CanchasRoute
+  '/clientes': typeof ClientesRoute
+  '/configuracion': typeof ConfiguracionRoute
+  '/productos': typeof ProductosRoute
+  '/reportes': typeof ReportesRoute
   '/reservas': typeof ReservasRouteWithChildren
+  '/torneos': typeof TorneosRoute
+  '/usuarios': typeof UsuariosRoute
+  '/ventas': typeof VentasRoute
   '/reservas/nueva': typeof ReservasNuevaRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/reservas' | '/reservas/nueva'
+  fullPaths:
+    | '/'
+    | '/caja'
+    | '/canchas'
+    | '/clientes'
+    | '/configuracion'
+    | '/productos'
+    | '/reportes'
+    | '/reservas'
+    | '/torneos'
+    | '/usuarios'
+    | '/ventas'
+    | '/reservas/nueva'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/reservas' | '/reservas/nueva'
-  id: '__root__' | '/' | '/reservas' | '/reservas/nueva'
+  to:
+    | '/'
+    | '/caja'
+    | '/canchas'
+    | '/clientes'
+    | '/configuracion'
+    | '/productos'
+    | '/reportes'
+    | '/reservas'
+    | '/torneos'
+    | '/usuarios'
+    | '/ventas'
+    | '/reservas/nueva'
+  id:
+    | '__root__'
+    | '/'
+    | '/caja'
+    | '/canchas'
+    | '/clientes'
+    | '/configuracion'
+    | '/productos'
+    | '/reportes'
+    | '/reservas'
+    | '/torneos'
+    | '/usuarios'
+    | '/ventas'
+    | '/reservas/nueva'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  CajaRoute: typeof CajaRoute
+  CanchasRoute: typeof CanchasRoute
+  ClientesRoute: typeof ClientesRoute
+  ConfiguracionRoute: typeof ConfiguracionRoute
+  ProductosRoute: typeof ProductosRoute
+  ReportesRoute: typeof ReportesRoute
   ReservasRoute: typeof ReservasRouteWithChildren
+  TorneosRoute: typeof TorneosRoute
+  UsuariosRoute: typeof UsuariosRoute
+  VentasRoute: typeof VentasRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/ventas': {
+      id: '/ventas'
+      path: '/ventas'
+      fullPath: '/ventas'
+      preLoaderRoute: typeof VentasRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/usuarios': {
+      id: '/usuarios'
+      path: '/usuarios'
+      fullPath: '/usuarios'
+      preLoaderRoute: typeof UsuariosRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/torneos': {
+      id: '/torneos'
+      path: '/torneos'
+      fullPath: '/torneos'
+      preLoaderRoute: typeof TorneosRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/reservas': {
       id: '/reservas'
       path: '/reservas'
       fullPath: '/reservas'
       preLoaderRoute: typeof ReservasRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/reportes': {
+      id: '/reportes'
+      path: '/reportes'
+      fullPath: '/reportes'
+      preLoaderRoute: typeof ReportesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/productos': {
+      id: '/productos'
+      path: '/productos'
+      fullPath: '/productos'
+      preLoaderRoute: typeof ProductosRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/configuracion': {
+      id: '/configuracion'
+      path: '/configuracion'
+      fullPath: '/configuracion'
+      preLoaderRoute: typeof ConfiguracionRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/clientes': {
+      id: '/clientes'
+      path: '/clientes'
+      fullPath: '/clientes'
+      preLoaderRoute: typeof ClientesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/canchas': {
+      id: '/canchas'
+      path: '/canchas'
+      fullPath: '/canchas'
+      preLoaderRoute: typeof CanchasRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/caja': {
+      id: '/caja'
+      path: '/caja'
+      fullPath: '/caja'
+      preLoaderRoute: typeof CajaRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/': {
@@ -98,7 +288,16 @@ const ReservasRouteWithChildren = ReservasRoute._addFileChildren(
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  CajaRoute: CajaRoute,
+  CanchasRoute: CanchasRoute,
+  ClientesRoute: ClientesRoute,
+  ConfiguracionRoute: ConfiguracionRoute,
+  ProductosRoute: ProductosRoute,
+  ReportesRoute: ReportesRoute,
   ReservasRoute: ReservasRouteWithChildren,
+  TorneosRoute: TorneosRoute,
+  UsuariosRoute: UsuariosRoute,
+  VentasRoute: VentasRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
