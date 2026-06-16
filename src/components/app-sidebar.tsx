@@ -14,7 +14,7 @@ import {
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
-const nav = [
+const nav: Array<{ to: string; label: string; icon: typeof LayoutDashboard; exact?: boolean }> = [
   { to: "/", label: "Dashboard", icon: LayoutDashboard, exact: true },
   { to: "/reservas", label: "Reservas", icon: CalendarDays },
   { to: "/canchas", label: "Canchas", icon: MapPin },
@@ -26,7 +26,7 @@ const nav = [
   { to: "/reportes", label: "Reportes", icon: BarChart3 },
   { to: "/usuarios", label: "Usuarios", icon: UserCog },
   { to: "/configuracion", label: "Configuración", icon: Settings },
-] as const;
+];
 
 export function AppSidebar() {
   const pathname = useRouterState({ select: (s) => s.location.pathname });
