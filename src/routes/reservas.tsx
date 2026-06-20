@@ -4,6 +4,7 @@ import FullCalendar from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
 import timeGridPlugin from "@fullcalendar/timegrid";
 import interactionPlugin from "@fullcalendar/interaction";
+import resourceTimeGridPlugin from "@fullcalendar/resource-timegrid";
 import { Plus } from "lucide-react";
 import { PageContainer } from "@/components/page-container";
 import { store, type Reserva } from "@/lib/storage";
@@ -28,14 +29,23 @@ function Reservas() {
   const clientes = useMemo(() => store.getClientes(), []);
   const calRef = useRef<FullCalendar | null>(null);
 
-  useEffect(() => { setReservas(store.getReservas()); }, []);
+  useEffect(() => {
+    setReservas(store.getReservas());
+  }, []);
+
+  const resources = canchas.map((c) => ({
+    id: c.id,
+    title: c.nombre,
+    extendedProps: { tipo: c.tipo },
+  }));
 
   const events = reservas.map((r) => {
     const cancha = canchas.find((c) => c.id === r.canchaId);
     const cliente = clientes.find((c) => c.id === r.clienteId);
     return {
       id: r.id,
-      title: `${cancha?.nombre ?? "Cancha"}\n${cliente?.nombre ?? ""}`,
+      resourceId: r.canchaId,
+      title: `${cliente?.nombre ?? "Cliente"} — ${cancha?.tipo ?? ""}`,
       start: `${r.fecha}T${r.horaInicio}:00`,
       end: `${r.fecha}T${r.horaFin}:00`,
       backgroundColor: stateColors[r.estado],
@@ -57,25 +67,49 @@ function Reservas() {
           ))}
         </div>
         <Button asChild>
-          <Link to="/reservas/nueva"><Plus className="h-4 w-4 mr-1" /> Nueva Reserva</Link>
+          <Link to="/reservas/nueva">
+            <Plus className="h-4 w-4 mr-1" /> Nueva Reserva
+          </Link>
         </Button>
       </div>
 
       <div className="bg-card rounded-xl border border-border p-4 shadow-[var(--shadow-card)]">
         <FullCalendar
           ref={calRef}
-          plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
-          initialView="timeGridWeek"
-          headerToolbar={{ left: "prev,next today", center: "title", right: "dayGridMonth,timeGridWeek,timeGridDay" }}
+          schedulerLicenseKey="CC-Attribution-NonCommercial-NoDerivatives"
+          plugins={[
+            dayGridPlugin,
+            timeGridPlugin,
+            interactionPlugin,
+            resourceTimeGridPlugin,
+          ]}
+          initialView="resourceTimeGridDay"
+          headerToolbar={{
+            left: "prev,next today",
+            center: "title",
+            right: "resourceTimeGridDay,timeGridWeek,dayGridMonth",
+          }}
+          views={{
+            resourceTimeGridDay: { buttonText: "Por Cancha" },
+          }}
           locale="es"
-          buttonText={{ today: "Hoy", month: "Mes", week: "Semana", day: "Día" }}
+          buttonText={{
+            today: "Hoy",
+            month: "Mes",
+            week: "Semana",
+            day: "Día",
+          }}
           allDaySlot={false}
           slotMinTime="07:00:00"
           slotMaxTime="23:00:00"
           height="auto"
+          resources={resources}
+          resourceAreaHeaderContent="Cancha"
           events={events}
           eventClick={(info) => {
-            toast.info(info.event.title.split("\n")[0], { description: `Estado: ${info.event.extendedProps.estado}` });
+            toast.info(info.event.title, {
+              description: `Estado: ${info.event.extendedProps.estado}`,
+            });
           }}
           dateClick={() => router.navigate({ to: "/reservas/nueva" })}
           nowIndicator
