@@ -215,6 +215,9 @@ export function ensureSeed() {
   seed();
 }
 
+// Auto-seed on first import in the browser so any route can read data synchronously.
+if (isBrowser()) seed();
+
 export const store = {
   getCanchas: () => read<Cancha[]>(KEYS.canchas, []),
   setCanchas: (v: Cancha[]) => write(KEYS.canchas, v),
