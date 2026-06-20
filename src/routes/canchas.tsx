@@ -86,7 +86,7 @@ function Canchas() {
             </tr>
           </thead>
           <tbody className="divide-y divide-border">
-            {items.map((c) => (
+            {rows.map(({ c, estadoActual }) => (
               <tr key={c.id} className="hover:bg-muted/30">
                 <td className="px-4 py-3 font-medium">
                   <div className="flex items-center gap-3">
@@ -96,7 +96,9 @@ function Canchas() {
                 </td>
                 <td className="px-4 py-3">{c.tipo}</td>
                 <td className="px-4 py-3">{money(c.precioHora)}</td>
-                <td className="px-4 py-3"><span className={`text-xs px-2 py-1 rounded-full ${estadoColor[c.estado]}`}>{c.estado}</span></td>
+                <td className="px-4 py-3">
+                  <span className={`text-xs px-2 py-1 rounded-full ${estadoColor[estadoActual]}`}>{estadoActual}</span>
+                </td>
                 <td className="px-4 py-3 text-right">
                   <Button variant="ghost" size="icon" onClick={() => { setEdit(c); setOpen(true); }}><Pencil className="h-4 w-4" /></Button>
                   <Button variant="ghost" size="icon" onClick={() => { persist(items.filter((x) => x.id !== c.id)); toast.success("Eliminada"); }}><Trash2 className="h-4 w-4 text-destructive" /></Button>
