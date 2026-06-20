@@ -1,9 +1,9 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Plus, Pencil, Trash2 } from "lucide-react";
 import { PageContainer } from "@/components/page-container";
 import { Button } from "@/components/ui/button";
-import { store, uid, type Cancha } from "@/lib/storage";
+import { store, uid, type Cancha, type Reserva } from "@/lib/storage";
 import { money } from "@/lib/format";
 import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
@@ -23,12 +23,34 @@ const estadoColor: Record<Cancha["estado"], string> = {
   Mantenimiento: "bg-warning/20 text-warning-foreground",
 };
 
+// Estado real respecto a la hora actual (excepto Mantenimiento).
+function computeEstado(c: Cancha, reservas: Reserva[], now: Date): Cancha["estado"] {
+  if (c.estado === "Mantenimiento") return "Mantenimiento";
+  const fecha = now.toISOString().slice(0, 10);
+  const hhmm = now.toTimeString().slice(0, 5);
+  const ocupada = reservas.some(
+    (r) =>
+      r.canchaId === c.id &&
+      r.fecha === fecha &&
+      r.estado !== "Cancelada" &&
+      r.horaInicio <= hhmm &&
+      r.horaFin > hhmm,
+  );
+  return ocupada ? "Ocupada" : "Disponible";
+}
+
 function Canchas() {
   const [items, setItems] = useState<Cancha[]>([]);
   const [open, setOpen] = useState(false);
   const [edit, setEdit] = useState<Cancha | null>(null);
+  const [now, setNow] = useState(() => new Date());
+  const reservas = useMemo(() => store.getReservas(), [items]);
 
   useEffect(() => { setItems(store.getCanchas()); }, []);
+  useEffect(() => {
+    const t = setInterval(() => setNow(new Date()), 60_000);
+    return () => clearInterval(t);
+  }, []);
 
   const persist = (next: Cancha[]) => { setItems(next); store.setCanchas(next); };
 
@@ -38,6 +60,8 @@ function Canchas() {
     toast.success(edit ? "Cancha actualizada" : "Cancha creada");
     setOpen(false); setEdit(null);
   };
+
+  const rows = items.map((c) => ({ c, estadoActual: computeEstado(c, reservas, now) }));
 
   return (
     <PageContainer>
