@@ -1,4 +1,4 @@
-import { Link, useRouterState } from "@tanstack/react-router";
+import { Link, useLocation } from "react-router-dom";
 import {
   LayoutDashboard,
   CalendarDays,
@@ -29,7 +29,7 @@ const nav: Array<{ to: string; label: string; icon: typeof LayoutDashboard; exac
 ];
 
 export function AppSidebar() {
-  const pathname = useRouterState({ select: (s) => s.location.pathname });
+  const { pathname } = useLocation();
   return (
     <aside className="hidden md:flex md:flex-col w-60 shrink-0 bg-sidebar text-sidebar-foreground border-r border-sidebar-border">
       <div className="h-16 flex items-center gap-2 px-5 border-b border-sidebar-border">

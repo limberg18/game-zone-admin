@@ -1,5 +1,5 @@
 import { Bell, ChevronDown } from "lucide-react";
-import { useRouterState } from "@tanstack/react-router";
+import { useLocation } from "react-router-dom";
 
 const titles: Record<string, string> = {
   "/": "Dashboard",
@@ -17,7 +17,7 @@ const titles: Record<string, string> = {
 };
 
 export function AppHeader() {
-  const pathname = useRouterState({ select: (s) => s.location.pathname });
+  const { pathname } = useLocation();
   const title = titles[pathname] ?? "SportCancha";
   const today = new Date().toLocaleDateString("es-PE", { weekday: "long", day: "numeric", month: "long", year: "numeric" });
 
