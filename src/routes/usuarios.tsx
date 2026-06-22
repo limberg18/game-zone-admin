@@ -1,4 +1,3 @@
-import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { Plus, Pencil, Trash2 } from "lucide-react";
 import { PageContainer } from "@/components/page-container";
@@ -11,12 +10,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { store, uid, type Usuario } from "@/lib/storage";
 import { toast } from "sonner";
 
-export const Route = createFileRoute("/usuarios")({
-  head: () => ({ meta: [{ title: "Usuarios — SportCancha" }] }),
-  component: Usuarios,
-});
-
-function Usuarios() {
+export default function Usuarios() {
   const [items, setItems] = useState<Usuario[]>([]);
   const [open, setOpen] = useState(false);
   const [edit, setEdit] = useState<Usuario | null>(null);

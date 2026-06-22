@@ -1,4 +1,3 @@
-import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { Plus, Trash2 } from "lucide-react";
 import { PageContainer, StatCard } from "@/components/page-container";
@@ -12,12 +11,7 @@ import { money } from "@/lib/format";
 import { ShoppingCart, TrendingUp } from "lucide-react";
 import { toast } from "sonner";
 
-export const Route = createFileRoute("/ventas")({
-  head: () => ({ meta: [{ title: "Ventas — SportCancha" }] }),
-  component: Ventas,
-});
-
-function Ventas() {
+export default function Ventas() {
   const [items, setItems] = useState<Venta[]>([]);
   const [open, setOpen] = useState(false);
   const productos = store.getProductos();

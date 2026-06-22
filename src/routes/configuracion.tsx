@@ -1,4 +1,3 @@
-import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { PageContainer } from "@/components/page-container";
 import { Button } from "@/components/ui/button";
@@ -10,12 +9,7 @@ import { refreshApiConfig } from "@/lib/api";
 import { toast } from "sonner";
 import { Plug, Save, Database } from "lucide-react";
 
-export const Route = createFileRoute("/configuracion")({
-  head: () => ({ meta: [{ title: "Configuración — SportCancha" }] }),
-  component: Configuracion,
-});
-
-function Configuracion() {
+export default function Configuracion() {
   const [cfg, setCfg] = useState<AppConfig>({ apiBaseUrl: "", apiToken: "", nombreNegocio: "", moneda: "S/" });
   const [tarifas, setTarifas] = useState<Cancha[]>([]);
 

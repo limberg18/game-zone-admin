@@ -1,4 +1,4 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { CalendarDays, DollarSign, MapPin, Users, TrendingUp } from "lucide-react";
 import { PageContainer, StatCard } from "@/components/page-container";
@@ -6,17 +6,7 @@ import { store, type Reserva, type Cancha, type Cliente } from "@/lib/storage";
 import { money, formatDate } from "@/lib/format";
 import { ResponsiveContainer, XAxis, YAxis, Tooltip, CartesianGrid, Area, AreaChart } from "recharts";
 
-export const Route = createFileRoute("/")({
-  head: () => ({
-    meta: [
-      { title: "Dashboard — SportCancha" },
-      { name: "description", content: "Resumen de reservas, ingresos y actividad de tus canchas deportivas." },
-    ],
-  }),
-  component: Dashboard,
-});
-
-function Dashboard() {
+export default function Dashboard() {
   const [reservas, setReservas] = useState<Reserva[]>([]);
   const [canchas, setCanchas] = useState<Cancha[]>([]);
   const [clientes, setClientes] = useState<Cliente[]>([]);

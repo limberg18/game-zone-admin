@@ -1,4 +1,3 @@
-import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { Plus, Pencil, Trash2 } from "lucide-react";
 import { PageContainer } from "@/components/page-container";
@@ -10,18 +9,13 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { store, uid, type Torneo } from "@/lib/storage";
 import { toast } from "sonner";
 
-export const Route = createFileRoute("/torneos")({
-  head: () => ({ meta: [{ title: "Torneos — SportCancha" }] }),
-  component: Torneos,
-});
-
 const estadoColor: Record<Torneo["estado"], string> = {
   "En Curso": "bg-success/15 text-success",
   "Próximo": "bg-info/15 text-info",
   "Finalizado": "bg-muted text-muted-foreground",
 };
 
-function Torneos() {
+export default function Torneos() {
   const [items, setItems] = useState<Torneo[]>([]);
   const [open, setOpen] = useState(false);
   const [edit, setEdit] = useState<Torneo | null>(null);

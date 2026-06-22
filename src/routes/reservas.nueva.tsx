@@ -1,4 +1,4 @@
-import { createFileRoute, useRouter, Link } from "@tanstack/react-router";
+import { Link, useNavigate } from "react-router-dom";
 import { useMemo, useState } from "react";
 import { PageContainer } from "@/components/page-container";
 import { Button } from "@/components/ui/button";
@@ -10,13 +10,8 @@ import { store, uid, type Reserva } from "@/lib/storage";
 import { money } from "@/lib/format";
 import { toast } from "sonner";
 
-export const Route = createFileRoute("/reservas/nueva")({
-  head: () => ({ meta: [{ title: "Nueva Reserva — SportCancha" }] }),
-  component: NuevaReserva,
-});
-
-function NuevaReserva() {
-  const router = useRouter();
+export default function NuevaReserva() {
+  const navigate = useNavigate();
   const canchas = useMemo(() => store.getCanchas(), []);
   const clientes = useMemo(() => store.getClientes(), []);
 
@@ -42,7 +37,7 @@ function NuevaReserva() {
     };
     store.setReservas([...store.getReservas(), r]);
     toast.success("Reserva creada");
-    router.navigate({ to: "/reservas" });
+    navigate("/reservas");
   };
 
   return (

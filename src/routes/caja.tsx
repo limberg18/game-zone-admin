@@ -1,4 +1,3 @@
-import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useMemo, useState } from "react";
 import { Plus, Banknote, Smartphone, CreditCard, ArrowRightLeft } from "lucide-react";
 import { PageContainer, StatCard } from "@/components/page-container";
@@ -11,12 +10,7 @@ import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { toast } from "sonner";
 
-export const Route = createFileRoute("/caja")({
-  head: () => ({ meta: [{ title: "Caja — SportCancha" }] }),
-  component: Caja,
-});
-
-function Caja() {
+export default function Caja() {
   const [items, setItems] = useState<MovimientoCaja[]>([]);
   const [open, setOpen] = useState(false);
   useEffect(() => { setItems(store.getCaja()); }, []);
