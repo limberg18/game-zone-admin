@@ -1,4 +1,4 @@
-import { createFileRoute, Link, useRouter } from "@tanstack/react-router";
+import { Link, useNavigate } from "react-router-dom";
 import { useEffect, useMemo, useRef, useState } from "react";
 import FullCalendar from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
@@ -11,19 +11,14 @@ import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
 import { cn } from "@/lib/utils";
 
-export const Route = createFileRoute("/reservas")({
-  head: () => ({ meta: [{ title: "Reservas — SportCancha" }] }),
-  component: Reservas,
-});
-
 const stateColors: Record<Reserva["estado"], string> = {
   Confirmada: "oklch(0.62 0.18 150)",
   Pendiente: "oklch(0.78 0.16 75)",
   Cancelada: "oklch(0.6 0.22 25)",
 };
 
-function Reservas() {
-  const router = useRouter();
+export default function Reservas() {
+  const navigate = useNavigate();
   const [reservas, setReservas] = useState<Reserva[]>([]);
   const canchas = useMemo<Cancha[]>(() => store.getCanchas(), []);
   const clientes = useMemo(() => store.getClientes(), []);
@@ -168,7 +163,7 @@ function Reservas() {
               eventClick={(info) => {
                 toast.info(info.event.title, { description: `Estado: ${info.event.extendedProps.estado}` });
               }}
-              dateClick={() => router.navigate({ to: "/reservas/nueva" })}
+              dateClick={() => navigate("/reservas/nueva")}
               nowIndicator
             />
           </div>

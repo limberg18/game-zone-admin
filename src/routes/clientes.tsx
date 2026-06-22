@@ -1,4 +1,3 @@
-import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useMemo, useState } from "react";
 import { Plus, Pencil, Trash2, Search } from "lucide-react";
 import { PageContainer } from "@/components/page-container";
@@ -10,12 +9,7 @@ import { store, uid, type Cliente } from "@/lib/storage";
 import { money } from "@/lib/format";
 import { toast } from "sonner";
 
-export const Route = createFileRoute("/clientes")({
-  head: () => ({ meta: [{ title: "Clientes — SportCancha" }] }),
-  component: Clientes,
-});
-
-function Clientes() {
+export default function Clientes() {
   const [items, setItems] = useState<Cliente[]>([]);
   const [q, setQ] = useState("");
   const [open, setOpen] = useState(false);

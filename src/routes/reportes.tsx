@@ -1,4 +1,3 @@
-import { createFileRoute } from "@tanstack/react-router";
 import { useMemo } from "react";
 import { PageContainer, StatCard } from "@/components/page-container";
 import { store } from "@/lib/storage";
@@ -6,14 +5,9 @@ import { money } from "@/lib/format";
 import { Bar, BarChart, CartesianGrid, Cell, Pie, PieChart, ResponsiveContainer, Tooltip, XAxis, YAxis, Legend } from "recharts";
 import { Calendar, TrendingUp, BarChart3, Trophy } from "lucide-react";
 
-export const Route = createFileRoute("/reportes")({
-  head: () => ({ meta: [{ title: "Reportes — SportCancha" }] }),
-  component: Reportes,
-});
-
 const COLORS = ["var(--color-primary)", "var(--color-info)", "var(--color-warning)", "var(--color-chart-4)"];
 
-function Reportes() {
+export default function Reportes() {
   const caja = store.getCaja();
   const total = caja.reduce((s, m) => s + m.monto, 0);
 

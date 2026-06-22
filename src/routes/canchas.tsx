@@ -1,4 +1,3 @@
-import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useMemo, useState } from "react";
 import { Plus, Pencil, Trash2 } from "lucide-react";
 import { PageContainer } from "@/components/page-container";
@@ -10,11 +9,6 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { toast } from "sonner";
-
-export const Route = createFileRoute("/canchas")({
-  head: () => ({ meta: [{ title: "Canchas — SportCancha" }] }),
-  component: Canchas,
-});
 
 const estados: Cancha["estado"][] = ["Disponible", "Ocupada", "Mantenimiento"];
 const estadoColor: Record<Cancha["estado"], string> = {
@@ -39,7 +33,7 @@ function computeEstado(c: Cancha, reservas: Reserva[], now: Date): Cancha["estad
   return ocupada ? "Ocupada" : "Disponible";
 }
 
-function Canchas() {
+export default function Canchas() {
   const [items, setItems] = useState<Cancha[]>([]);
   const [open, setOpen] = useState(false);
   const [edit, setEdit] = useState<Cancha | null>(null);
